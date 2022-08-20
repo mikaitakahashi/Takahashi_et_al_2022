@@ -379,5 +379,55 @@ vif(model_Rp4)
 #' Bateleur (n = 38) 
 dplyr::count(subset(vp_data, Species == "2"))
 
+# vigilance model for Bateleur
+# no size
+model_Bv <- glm.nb(Heads.up ~ Settle_avg + t_distance_m + X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "2"))
+# check_overdispersion(model_Bv)
+P__disp(model_Bv)
+summary(model_Bv)
+
+# fit model
+model_Bv1 <- glm.nb(Heads.up ~ t_distance_m + X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "2"))
+lrtest(model_Bv1, model_Bv)
+model_Bv2 <- glm.nb(Heads.up ~ Settle_avg + X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "2"))
+lrtest(model_Bv2, model_Bv)
+model_Bv3 <- glm.nb(Heads.up ~ Settle_avg + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "2"))
+lrtest(model_Bv3, model_Bv2)
+model_Bv4 <- glm.nb(Heads.up ~ Settle_avg + Settle_avg:X.Birds, data = subset(vp_data, Species == "2"))
+lrtest(model_Bv4, model_Bv3)
+model_Bv5 <- glm.nb(Heads.up ~ Settle_avg, data = subset(vp_data, Species == "2"))
+lrtest(model_Bv5, model_Bv4)
+
+
+# final model
+model_Bv4 <- glm.nb(Heads.up ~ Settle_avg + Settle_avg:X.Birds, data = subset(vp_data, Species == "2"))
+summary(model_Bv4)
+r2_nagelkerke(model_Bv4)
+
+# vif(model_Bv5)
+# ??
+
+
+
+# peck model
+model_Bp <- glm.nb(Pecks ~ Settle_avg + t_distance_m + X.conspecific + N.birds, data = subset(vp_data, Species == "2"))
+# check_overdispersion(model_Bp)
+P__disp(model_Bp)
+summary(model_Bp)
+
+# fit model
+model_Bp1 <- glm.nb(Pecks ~ t_distance_m + X.conspecific + N.birds, data = subset(vp_data, Species == "2"))
+lrtest(model_Bp1, model_Bp)
+model_Bp2 <- glm.nb(Pecks ~ X.conspecific + N.birds, data = subset(vp_data, Species == "2"))
+lrtest(model_Bp2, model_Bp1)
+model_Bp3 <- glm.nb(Pecks ~ N.birds, data = subset(vp_data, Species == "2"))
+lrtest(model_Bp3, model_Bp2)
+model_Bp4 <- glm.nb(Pecks ~ 1, data = subset(vp_data, Species == "2"))
+lrtest(model_Bp4, model_Bp3)
+
+# final model
+model_Bp4 <- glm.nb(Pecks ~ 1, data = subset(vp_data, Species == "2"))
+summary(model_Bp4)
+# vif(model_Bp4)
 
 
