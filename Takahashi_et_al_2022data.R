@@ -376,5 +376,8 @@ r2_nagelkerke(model_Rp4)
 vif(model_Rp4)
 
 
+#' Bateleur (n = 38) 
+dplyr::count(subset(vp_data, Species == "2"))
+
 
 
