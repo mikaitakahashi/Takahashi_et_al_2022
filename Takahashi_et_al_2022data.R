@@ -246,5 +246,75 @@ performance::check_model(model_WBp4)
 
 
 
+#' 
+#' ***
+#' 
+#' ### Hooded vulture
+#' 
+
+#Hooded vulture (n = 58) 
+dplyr::count(subset(vp_data, Species == "6"))
+
+
+# vigilance model for hooded
+model_Hv <- glm.nb(Heads.up ~ Season + Settle_avg + t_distance_m + X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "6"))
+# check_overdispersion(model_Hv)
+P__disp(model_Hv)
+summary(model_Hv)
+
+# fit the model
+model_Hv1 <- glm.nb(Heads.up ~ t_distance_m + X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "6"))
+lrtest(model_Hv1, model_Hv)
+model_Hv2 <- glm.nb(Heads.up ~ X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "6"))
+lrtest(model_Hv2, model_Hv1)
+model_Hv3 <- glm.nb(Heads.up ~ N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "6"))
+lrtest(model_Hv3, model_Hv2)
+model_Hv4 <- glm.nb(Heads.up ~ X.conspecific + Settle_avg:X.Birds, data = subset(vp_data, Species == "6"))
+lrtest(model_Hv4, model_Hv2)
+model_Hv5 <- glm.nb(Heads.up ~ X.conspecific + N.birds, data = subset(vp_data, Species == "6"))
+lrtest(model_Hv5, model_Hv2)
+model_Hv6 <- glm.nb(Heads.up ~ Settle_avg + X.conspecific + N.birds, data = subset(vp_data, Species == "6"))
+lrtest(model_Hv6, model_Hv5)
+
+
+
+
+
+# final model
+model_Hv5 <- glm.nb(Heads.up ~ X.conspecific + N.birds, data = subset(vp_data, Species == "6"))
+summary(model_Hv5)
+r2_nagelkerke(model_Hv5)
+vif(model_Hv5)
+performance::check_model(model_Hv5)
+
+
+
+
+
+# peck model for hooded
+model_Hp <- glm.nb(Pecks ~ Settle_avg + t_distance_m + X.conspecific + N.birds, data = subset(vp_data, Species == "6"))
+# check_overdispersion(model_Hp)
+P__disp(model_Hp)
+summary(model_Hp)
+
+# fit the model 
+model_Hp1 <- glm.nb(Pecks ~ t_distance_m + X.conspecific + N.birds, data = subset(vp_data, Species == "6"))
+lrtest(model_Hp1, model_Hp)
+model_Hp2 <- glm.nb(Pecks ~ X.conspecific + N.birds, data = subset(vp_data, Species == "6"))
+lrtest(model_Hp2, model_Hp1)
+model_Hp3 <- glm.nb(Pecks ~ N.birds, data = subset(vp_data, Species == "6"))
+lrtest(model_Hp3, model_Hp2)
+model_Hp4 <- glm.nb(Pecks ~ X.conspecific, data = subset(vp_data, Species == "6"))
+lrtest(model_Hp4, model_Hp2)
+
+
+
+# final model
+model_Hp4 <- glm.nb(Pecks ~ X.conspecific, data = subset(vp_data, Species == "6"))
+summary(model_Hp4)
+r2_nagelkerke(model_Hp4)
+vif(model_Hp4)
+performance::check_model(model_Hp4)
+
 
 
