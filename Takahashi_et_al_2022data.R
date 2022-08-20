@@ -431,3 +431,56 @@ summary(model_Bp4)
 # vif(model_Bp4)
 
 
+
+#' White-headed (n = 17) 
+dplyr::count(subset(vp_data, Species == "14"))
+
+# vigilance model for White-headed
+# no size
+# no conspecifics, all solitary
+model_WHv <- glm.nb(Heads.up ~ Settle_avg + t_distance_m + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "14"))
+# check_overdispersion(model_WHv)
+P__disp(model_WHv)
+summary(model_WHv)
+
+# fit model
+model_WHv1 <- glm.nb(Heads.up ~ t_distance_m + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "14"))
+lrtest(model_WHv1, model_WHv)
+model_WHv2 <- glm.nb(Heads.up ~ N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "14"))
+lrtest(model_WHv2, model_WHv1)
+model_WHv3 <- glm.nb(Heads.up ~ Settle_avg:X.Birds, data = subset(vp_data, Species == "14"))
+lrtest(model_WHv3, model_WHv2)
+model_WHv4 <- glm.nb(Heads.up ~ 1, data = subset(vp_data, Species == "14"))
+lrtest(model_WHv4, model_WHv3)
+
+
+# final model???
+model_WHv4 <- glm.nb(Heads.up ~ 1, data = subset(vp_data, Species == "14"))
+summary(model_WHv4)
+# vif(model_WHv4)
+
+
+
+
+# peck model
+model_WHp <- glm.nb(Pecks ~ Settle_avg + t_distance_m + N.birds, data = subset(vp_data, Species == "14"))
+# check_overdispersion(model_WHp)
+P__disp(model_WHp)
+summary(model_WHp)
+
+# fit model
+model_WHp1 <- glm.nb(Pecks ~ t_distance_m + N.birds, data = subset(vp_data, Species == "14"))
+lrtest(model_WHp1, model_WHp)
+model_WHp2 <- glm.nb(Pecks ~ N.birds, data = subset(vp_data, Species == "14"))
+lrtest(model_WHp2, model_WHp1)
+model_WHp3 <- glm.nb(Pecks ~ 1, data = subset(vp_data, Species == "14"))
+lrtest(model_WHp3, model_WHp2)
+
+
+# final model
+model_WHp3 <- glm.nb(Pecks ~ 1, data = subset(vp_data, Species == "14"))
+summary(model_WHp3)
+# vif(model_WHp4)
+
+
+
