@@ -176,5 +176,75 @@ summary(model_Tp4)
 
 
 
+#'
+#' ***
+#' 
+#' ### White-backed Vulture (n = 105) 
+dplyr::count(subset(vp_data, Species == "1"))
+
+
+# vigilance model 
+model_WBv <- glm.nb(Heads.up ~ Settle_avg + t_distance_m + X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "1"))
+# check_overdispersion(model_WBv)
+P__disp(model_WBv)
+summary(model_WBv)
+
+
+# fit the model
+model_WBv1 <- glm.nb(Heads.up ~ t_distance_m + X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "1"))
+lrtest(model_WBv1, model_WBv)
+model_WBv2 <- glm.nb(Heads.up ~ X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "1"))
+lrtest(model_WBv2, model_WBv1)
+model_WBv3 <- glm.nb(Heads.up ~ t_distance_m + X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "1"))
+lrtest(model_WBv3, model_WBv2)
+model_WBv4 <- glm.nb(Heads.up ~ t_distance_m + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "1"))
+lrtest(model_WBv4, model_WBv3)
+model_WBv5 <- glm.nb(Heads.up ~ t_distance_m + X.conspecific + Settle_avg:X.Birds, data = subset(vp_data, Species == "1"))
+lrtest(model_WBv5, model_WBv3)
+model_WBv6 <- glm.nb(Heads.up ~ t_distance_m + X.conspecific, data = subset(vp_data, Species == "1"))
+lrtest(model_WBv6, model_WBv5)
+model_WBv7 <- glm.nb(Heads.up ~ Settle_avg + t_distance_m + X.conspecific, data = subset(vp_data, Species == "1"))
+lrtest(model_WBv6, model_WBv7)
+
+
+
+# final model
+model_WBv7 <- glm.nb(Heads.up ~ Settle_avg + t_distance_m + X.conspecific, data = subset(vp_data, Species == "1"))
+summary(model_WBv7)
+r2_nagelkerke(model_WBv7)
+vif(model_WBv7)
+performance::check_model(model_WBv7)
+
+#' vigilance decreased as # vulture increased. Could be because they are social vulture species. 
+
+
+
+# peck model for WB
+model_WBp <- glm.nb(Pecks ~ Settle_avg + t_distance_m + X.conspecific + N.birds, data = subset(vp_data, Species == "1"))
+# check_overdispersion(model_WBp)
+P__disp(model_WBp)
+summary(model_WBp)
+
+# fit the model
+model_WBp1 <- glm.nb(Pecks ~ t_distance_m + X.conspecific + N.birds, data = subset(vp_data, Species == "1"))
+lrtest(model_WBp1, model_WBp)
+model_WBp2 <- glm.nb(Pecks ~ Settle_avg + X.conspecific + N.birds, data = subset(vp_data, Species == "1"))
+lrtest(model_WBp2, model_WBp)
+model_WBp3 <- glm.nb(Pecks ~ Settle_avg + N.birds, data = subset(vp_data, Species == "1"))
+lrtest(model_WBp3, model_WBp2)
+model_WBp4 <- glm.nb(Pecks ~ Settle_avg + X.conspecific, data = subset(vp_data, Species == "1"))
+lrtest(model_WBp4, model_WBp2)
+
+
+# final model
+model_WBp4 <- glm.nb(Pecks ~ Settle_avg + X.conspecific, data = subset(vp_data, Species == "1"))
+summary(model_WBp4)
+vif(model_WBp4)
+r2_nagelkerke(model_WBp4)
+performance::check_model(model_WBp4)
+
+
+
+
 
 
