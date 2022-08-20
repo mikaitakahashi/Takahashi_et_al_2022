@@ -318,3 +318,63 @@ performance::check_model(model_Hp4)
 
 
 
+#' Ruppple's (n = 49) 
+dplyr::count(subset(vp_data, Species == "11"))
+
+
+# vigilance model for RV
+# no size
+model_Rv <- glm.nb(Heads.up ~ Settle_avg + t_distance_m + X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "11"))
+# check_overdispersion(model_Rv)
+P__disp(model_Rv)
+summary(model_Rv)
+
+
+# fit the model
+model_Rv1 <- glm.nb(Heads.up ~ t_distance_m + X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "11"))
+lrtest(model_Rv1, model_Rv)
+model_Rv2 <- glm.nb(Heads.up ~ X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "11"))
+lrtest(model_Rv2, model_Rv1)
+model_Rv3 <- glm.nb(Heads.up ~ N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "11"))
+lrtest(model_Rv3, model_Rv2)
+model_Rv4 <- glm.nb(Heads.up ~ X.conspecific + Settle_avg:X.Birds, data = subset(vp_data, Species == "11"))
+lrtest(model_Rv4, model_Rv2)
+model_Rv5 <- glm.nb(Heads.up ~ X.conspecific, data = subset(vp_data, Species == "11"))
+lrtest(model_Rv5, model_Rv4)
+
+
+# final model
+model_Rv4 <- glm.nb(Heads.up ~ X.conspecific + Settle_avg:X.Birds, data = subset(vp_data, Species == "11"))
+summary(model_Rv4)
+r2_nagelkerke(model_Rv4)
+vif(model_Rv4)
+
+#' conspecific decreased vigilance rate 
+
+
+# peck model for RV
+model_Rp <- glm.nb(Pecks ~ Settle_avg + t_distance_m + X.conspecific + N.birds, data = subset(vp_data, Species == "11"))
+# check_overdispersion(model_Rp)
+P__disp(model_Rp)
+summary(model_Rp)
+
+# fit the model
+model_Rp1<- glm.nb(Pecks ~ t_distance_m + X.conspecific + N.birds, data = subset(vp_data, Species == "11"))
+lrtest(model_Rp1, model_Rp)
+model_Rp2<- glm.nb(Pecks ~ X.conspecific + N.birds, data = subset(vp_data, Species == "11"))
+lrtest(model_Rp2, model_Rp1)
+model_Rp3 <- glm.nb(Pecks ~ N.birds, data = subset(vp_data, Species == "11"))
+lrtest(model_Rp3, model_Rp2)
+model_Rp4 <- glm.nb(Pecks ~ 1, data = subset(vp_data, Species == "11"))
+lrtest(model_Rp4, model_Rp3)
+
+
+# final model
+model_Rp4 <- glm.nb(Pecks ~ 1, data = subset(vp_data, Species == "11"))
+summary(model_Rp4)
+r2_nagelkerke(model_Rp4)
+vif(model_Rp4)
+
+
+
+
