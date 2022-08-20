@@ -118,4 +118,63 @@ performance::check_model(model_Lp3)
 
 
 
+#' 
+#' ***
+#' 
+#' ### Tawny (n = 116) 
+dplyr::count(subset(vp_data, Species == "13"))
+
+
+# vigilance model for tawny
+# no Size in the model since there was only one size recorded
+model_Tv <- glm.nb(Heads.up ~ Settle_avg + t_distance_m + X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "13"))
+# check_overdispersion(model_Tv)
+P__disp(model_Tv)
+summary(model_Tv)
+
+
+# fit the model 
+model_Tv1 <- glm.nb(Heads.up ~ t_distance_m + X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "13"))
+lrtest(model_Tv1, model_Tv)
+model_Tv2 <- glm.nb(Heads.up ~ X.conspecific + N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "13"))
+lrtest(model_Tv2, model_Tv1)
+model_Tv3 <- glm.nb(Heads.up ~ N.birds + Settle_avg:X.Birds, data = subset(vp_data, Species == "13"))
+lrtest(model_Tv3, model_Tv2)
+model_Tv4 <- glm.nb(Heads.up ~ Settle_avg:X.Birds, data = subset(vp_data, Species == "13"))
+lrtest(model_Tv4, model_Tv3)
+model_Tv5<- glm.nb(Heads.up ~ 1, data = subset(vp_data, Species == "13"))
+lrtest(model_Tv5, model_Tv4)
+
+# final model 
+model_Tv5 <- glm.nb(Heads.up ~ 1, data = subset(vp_data, Species == "13"))
+summary(model_Tv6)
+r2_nagelkerke(model_Tv4)
+# vif(model_Tv4)
+# performance::check_model(model_Tv4)
+
+
+# peck model for tawny
+model_Tp <- glm.nb(Pecks ~Settle_avg + t_distance_m + X.conspecific + N.birds, data = subset(vp_data, Species == "13"))
+# check_overdispersion(model_Tp)
+P__disp(model_Tp)
+summary(model_Tp)
+
+# fit the model
+model_Tp1 <- glm.nb(Pecks ~ t_distance_m + X.conspecific + N.birds, data = subset(vp_data, Species == "13"))
+lrtest(model_Tp1, model_Tp)
+model_Tp2 <- glm.nb(Pecks ~ X.conspecific + N.birds, data = subset(vp_data, Species == "13"))
+lrtest(model_Tp2, model_Tp1)
+model_Tp3 <- glm.nb(Pecks ~ N.birds, data = subset(vp_data, Species == "13"))
+lrtest(model_Tp3, model_Tp2)
+model_Tp4 <- glm.nb(Pecks ~ 1, data = subset(vp_data, Species == "13"))
+lrtest(model_Tp4, model_Tp3)
+
+# final model
+model_Tp4 <- glm.nb(Pecks ~ 1, data = subset(vp_data, Species == "13"))
+summary(model_Tp4)
+#vif(model_Tp)
+
+
+
+
 
